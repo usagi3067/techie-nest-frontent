@@ -60,6 +60,9 @@ export type { UserRegisterRequest } from "./models/UserRegisterRequest";
 export type { UserUpdateMyRequest } from "./models/UserUpdateMyRequest";
 export type { UserUpdateRequest } from "./models/UserUpdateRequest";
 export type { UserVO } from "./models/UserVO";
+export type { LeaderboardQueryRequest } from "./models/LeaderboardQueryRequest";
+export type { LeaderboardVO } from "./models/LeaderboardVO";
+export type { Page_LeaderboardVO_ } from "./models/Page_LeaderboardVO_";
 
 export { FileControllerService } from "./services/FileControllerService";
 export { PostControllerService } from "./services/PostControllerService";
@@ -68,3 +71,4 @@ export { PostThumbControllerService } from "./services/PostThumbControllerServic
 export { QuestionControllerService } from "./services/QuestionControllerService";
 export { UserControllerService } from "./services/UserControllerService";
 export { WxMpControllerService } from "./services/WxMpControllerService";
+export { LeaderboardControllerService } from "./services/LeaderboardControllerService"

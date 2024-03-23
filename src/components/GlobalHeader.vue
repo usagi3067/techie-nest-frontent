@@ -12,7 +12,7 @@
           disabled
         >
           <div class="title-bar">
-            <img class="logo" src="../assets/oj-logo.svg" />
+            <img class="logo" src="../assets/oj-logo.png" />
             <div class="title">FLY OJ</div>
           </div>
         </a-menu-item>
@@ -23,7 +23,17 @@
     </a-col>
     <a-col flex="100px">
       <div>
-        {{ userName }}
+        <!-- 如果未登录，显示“未登录”并提供登录按钮 -->
+        <div v-if="userName === '未登录'">
+          <a-button type="primary" @click="goToLogin">登录</a-button>
+        </div>
+        <!-- 如果已登录，显示用户名 -->
+        <div v-else class="user-profile">
+          <a-avatar class="user-avatar">
+            <img alt="avatar" :src="userAvatarUrl" />
+          </a-avatar>
+          <div class="user-name">{{ userName }}</div>
+        </div>
       </div>
     </a-col>
   </a-row>
@@ -78,10 +88,19 @@ const doMenuClick = (key: string) => {
     path: key,
   });
 };
+// 假设你的store中有用户信息，包括头像URL
+const userAvatarUrl = computed(
+  () => store.state.user?.loginUser?.userAvatar ?? ""
+);
+
 // 使用计算属性来安全地访问用户名
 const userName = computed(() => {
   return store.state.user?.loginUser?.userName ?? "未登录";
 });
+// 添加跳转到登录页面的方法
+const goToLogin = () => {
+  router.push("/user/login");
+};
 </script>
 
 <style scoped>
@@ -97,5 +116,22 @@ const userName = computed(() => {
 
 .logo {
   height: 48px;
+}
+
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 居中对齐头像和用户名 */
+  justify-content: center; /* 如果需要，也可以在容器内部垂直居中内容 */
+}
+
+.user-avatar {
+  margin-bottom: 8px; /* 头像和用户名之间的距离 */
+}
+
+/* 根据需要调整样式 */
+.user-name {
+  /* 可以添加更多样式来定制用户名的外观 */
+  color: #888888; /* 字体颜色 */
 }
 </style>

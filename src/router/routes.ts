@@ -11,6 +11,9 @@ import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
+import LeaderboardView from "@/views/leaderboard/LeaderboardView.vue";
+import PostView from "@/views/post/PostView.vue";
+import PostNew from "@/views/post/postNew.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -33,18 +36,50 @@ export const routes: Array<RouteRecordRaw> = [
       hideInMenu: true,
     },
   },
+  // {
+  //   path: "/",
+  //   name: "浏览题目",
+  //   component: QuestionsView,
+  // },
+  {
+    path: "/",
+    redirect: "/questions", // 重定向 / 到 /questions
+  },
   {
     path: "/questions",
     name: "浏览题目",
     component: QuestionsView,
-    meta: {
-      access: ACCESS_ENUM.USER,
-    },
   },
   {
     path: "/question_submit",
     name: "浏览题目提交",
     component: QuestionSubmitView,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
+  },
+  {
+    path: "/leaderboard",
+    name: "排行榜",
+    component: LeaderboardView,
+  },
+  {
+    path: "/post",
+    name: "讨论区",
+    component: PostView,
+    meta: {
+      access: ACCESS_ENUM.ADMIN,
+    },
+  },
+  {
+    path: "/view/post/:id",
+    name: "帖子详情",
+    component: PostView,
+    props: true,
+    meta: {
+      access: ACCESS_ENUM.USER,
+      hideInMenu: true,
+    },
   },
   {
     path: "/view/question/:id",
@@ -81,11 +116,6 @@ export const routes: Array<RouteRecordRaw> = [
       access: ACCESS_ENUM.ADMIN,
     },
   },
-  {
-    path: "/",
-    name: "主页",
-    component: QuestionsView,
-  },
   // {
   //   path: "/hide",
   //   name: "隐藏页面",
@@ -110,13 +140,13 @@ export const routes: Array<RouteRecordRaw> = [
   //     access: ACCESS_ENUM.ADMIN,
   //   },
   // },
-  // {
-  //   path: "/about",
-  //   name: "关于我的",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
+  {
+    path: "/about",
+    name: "关于我的",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
 ];

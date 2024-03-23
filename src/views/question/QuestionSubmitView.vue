@@ -107,6 +107,9 @@ const columns = [
   {
     title: "判题信息",
     slotName: "judgeInfo",
+    ellipsis: true,
+    tooltip: true,
+    width: 400,
   },
   {
     title: "判题状态",

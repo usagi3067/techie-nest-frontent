@@ -1,16 +1,16 @@
 <template>
   <div id="questionsView">
-    <a-form :model="searchParams" layout="inline">
-      <a-form-item field="title" label="名称" style="min-width: 240px">
-        <a-input v-model="searchParams.title" placeholder="请输入名称" />
-      </a-form-item>
-      <a-form-item field="tags" label="标签" style="min-width: 240px">
-        <a-input-tag v-model="searchParams.tags" placeholder="请输入标签" />
-      </a-form-item>
-      <a-form-item>
-        <a-button type="primary" @click="doSubmit">提交</a-button>
-      </a-form-item>
-    </a-form>
+    <!--    <a-form :model="searchParams" layout="inline">-->
+    <!--      <a-form-item field="title" label="名称" style="min-width: 240px">-->
+    <!--        <a-input v-model="searchParams.title" placeholder="请输入名称" />-->
+    <!--      </a-form-item>-->
+    <!--      <a-form-item field="tags" label="标签" style="min-width: 240px">-->
+    <!--        <a-input-tag v-model="searchParams.tags" placeholder="请输入标签" />-->
+    <!--      </a-form-item>-->
+    <!--      <a-form-item>-->
+    <!--        <a-button type="primary" @click="doSubmit">提交</a-button>-->
+    <!--      </a-form-item>-->
+    <!--    </a-form>-->
     <a-divider size="0" />
     <a-table
       :ref="tableRef"
@@ -24,31 +24,19 @@
       }"
       @page-change="onPageChange"
     >
-      <template #tags="{ record }">
-        <a-space wrap>
-          <a-tag v-for="(tag, index) of record.tags" :key="index" color="green"
-            >{{ tag }}
-          </a-tag>
-        </a-space>
+      <template #userAvatar="{ record }">
+        <a-avatar>
+          <img alt="avatar" :src="record.userAvatar" />
+        </a-avatar>
       </template>
-      <template #acceptedRate="{ record }">
+      <template #passPercent="{ record }">
         {{
           `${
-            record.submitNum
-              ? ((record.acceptedNum / record.submitNum) * 100).toFixed(2)
+            record.submitNumber
+              ? ((record.acNumber / record.submitNumber) * 100).toFixed(2)
               : "0.00"
-          }% (${record.acceptedNum}/${record.submitNum})`
+          }% (${record.acNumber}/${record.submitNumber})`
         }}
-      </template>
-      <template #createTime="{ record }">
-        {{ moment(record.createTime).format("YYYY-MM-DD") }}
-      </template>
-      <template #optional="{ record }">
-        <a-space>
-          <a-button type="primary" @click="toQuestionPage(record)">
-            做题
-          </a-button>
-        </a-space>
       </template>
     </a-table>
   </div>
@@ -57,10 +45,9 @@
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from "vue";
 import {
-  Page_Question_,
-  Question,
-  QuestionControllerService,
-  QuestionQueryRequest,
+  Page_LeaderboardVO_,
+  LeaderboardControllerService,
+  LeaderboardQueryRequest,
 } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import * as querystring from "querystring";
@@ -71,15 +58,13 @@ const tableRef = ref();
 
 const dataList = ref([]);
 const total = ref(0);
-const searchParams = ref<QuestionQueryRequest>({
-  title: "",
-  tags: [],
+const searchParams = ref<LeaderboardQueryRequest>({
   pageSize: 8,
   current: 1,
 });
 
 const loadData = async () => {
-  const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
+  const res = await LeaderboardControllerService.listLeaderboardByPageUsingPost(
     searchParams.value
   );
   if (res.code === 0) {
@@ -108,28 +93,40 @@ onMounted(() => {
 
 const columns = [
   {
-    title: "题号",
-    dataIndex: "id",
+    title: "排名",
+    dataIndex: "no",
+    width: 100,
   },
   {
-    title: "题目名称",
-    dataIndex: "title",
+    title: "用户昵称",
+    dataIndex: "userName",
   },
   {
-    title: "标签",
-    slotName: "tags",
+    title: "用户头像",
+    slotName: "userAvatar",
   },
   {
-    title: "通过率",
-    slotName: "acceptedRate",
+    title: "用户简介",
+    dataIndex: "userProfile",
+    ellipsis: true,
+    tooltip: true,
+    width: 400,
   },
   {
-    title: "创建时间",
-    slotName: "createTime",
+    title: "ac数量",
+    dataIndex: "acNumber",
   },
   {
-    slotName: "optional",
+    title: "提交数量",
+    dataIndex: "submitNumber",
   },
+  {
+    title: "通过率(%)",
+    slotName: "passPercent",
+  },
+  // {
+  //   slotName: "optional",
+  // },
 ];
 
 const onPageChange = (page: number) => {
@@ -145,11 +142,11 @@ const router = useRouter();
  * 跳转到做题页面
  * @param question
  */
-const toQuestionPage = (question: Question) => {
-  router.push({
-    path: `/view/question/${question.id}`,
-  });
-};
+// const toQuestionPage = (question: Question) => {
+//   router.push({
+//     path: `/view/question/${question.id}`,
+//   });
+// };
 
 /**
  * 确认搜索，重新加载数据
