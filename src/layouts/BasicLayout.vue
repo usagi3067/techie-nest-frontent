@@ -26,7 +26,7 @@
 }
 
 #basicLayout .content {
-  background: linear-gradient(to right, #fefefe, #fff);
+  background: linear-gradient(to right, #fefefe, #f0f0f0, #fefefe, #f0f0f0);
   margin-bottom: 16px;
   padding: 20px;
 }

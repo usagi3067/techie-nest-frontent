@@ -12,20 +12,30 @@ const checkAccess = (loginUser: any, needAccess = ACCESS_ENUM.NOT_LOGIN) => {
   if (needAccess === ACCESS_ENUM.NOT_LOGIN) {
     return true;
   }
+  if (needAccess === ACCESS_ENUM.ADMIN) {
+    if (loginUserAccess !== ACCESS_ENUM.ADMIN) {
+      return false;
+    }
+  }
+
+  if (needAccess === ACCESS_ENUM.INSTRUCTOR) {
+    if (
+      loginUserAccess === ACCESS_ENUM.STUDENT ||
+      loginUserAccess === ACCESS_ENUM.NOT_LOGIN
+    ) {
+      return false;
+    }
+  }
+
   // 如果用户登录才能访问
-  if (needAccess === ACCESS_ENUM.USER) {
+  if (needAccess === ACCESS_ENUM.STUDENT) {
     // 如果用户没登录，那么表示无权限
     if (loginUserAccess === ACCESS_ENUM.NOT_LOGIN) {
       return false;
     }
   }
   // 如果需要管理员权限
-  if (needAccess === ACCESS_ENUM.ADMIN) {
-    // 如果不为管理员，表示无权限
-    if (loginUserAccess !== ACCESS_ENUM.ADMIN) {
-      return false;
-    }
-  }
+
   return true;
 };
 

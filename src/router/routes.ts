@@ -6,14 +6,16 @@ import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import AdminView from "@/views/AdminView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import ACCESS_ENUM from "@/access/accessEnum";
-import AddQuestionView from "@/views/question/AddQuestionView.vue";
-import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
-import QuestionsView from "@/views/question/QuestionsView.vue";
-import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
-import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
-import LeaderboardView from "@/views/leaderboard/LeaderboardView.vue";
-import PostView from "@/views/post/PostView.vue";
-import PostNew from "@/views/post/postNew.vue";
+import CourseDetailView from "@/views/course/CourseDetailView.vue";
+import CourseSearchView from "@/views/course/CourseSearchView.vue";
+import LearningView from "@/views/learn/LearningView.vue";
+import MyCourseView from "@/views/course/MyCourseView.vue";
+import CourseManageView from "@/views/company/CourseManageView.vue";
+import CourseUpdateView from "@/views/company/CourseUpdateView.vue";
+import MediaManageView from "@/views/company/MediaManageView.vue";
+import CoursePreviewView from "@/views/course/preview/CoursePreviewView.vue";
+import LearningPreviewView from "@/views/learn/preview/LearningPreviewView.vue";
+import CourseAuditView from "@/views/audit/CourseAuditView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -31,99 +33,28 @@ export const routes: Array<RouteRecordRaw> = [
         name: "用户注册",
         component: UserRegisterView,
       },
+      {
+        path: "/user/logout",
+        name: "退出登录",
+        component: UserLoginView,
+      },
     ],
     meta: {
       hideInMenu: true,
     },
   },
-  // {
-  //   path: "/",
-  //   name: "浏览题目",
-  //   component: QuestionsView,
-  // },
   {
     path: "/",
-    redirect: "/questions", // 重定向 / 到 /questions
+    redirect: "/courseSearch", // 重定向 / 到 /questions
   },
   {
-    path: "/questions",
-    name: "浏览题目",
-    component: QuestionsView,
-  },
-  {
-    path: "/question_submit",
-    name: "浏览题目提交",
-    component: QuestionSubmitView,
+    path: "/courseSearch",
+    name: "课程主页",
+    component: CourseSearchView,
     meta: {
-      access: ACCESS_ENUM.USER,
+      access: ACCESS_ENUM.NOT_LOGIN,
     },
   },
-  {
-    path: "/leaderboard",
-    name: "排行榜",
-    component: LeaderboardView,
-  },
-  {
-    path: "/post",
-    name: "讨论区",
-    component: PostView,
-    meta: {
-      access: ACCESS_ENUM.ADMIN,
-    },
-  },
-  {
-    path: "/view/post/:id",
-    name: "帖子详情",
-    component: PostView,
-    props: true,
-    meta: {
-      access: ACCESS_ENUM.USER,
-      hideInMenu: true,
-    },
-  },
-  {
-    path: "/view/question/:id",
-    name: "在线做题",
-    component: ViewQuestionView,
-    props: true,
-    meta: {
-      access: ACCESS_ENUM.USER,
-      hideInMenu: true,
-    },
-  },
-  {
-    path: "/add/question",
-    name: "创建题目",
-    component: AddQuestionView,
-    meta: {
-      access: ACCESS_ENUM.USER,
-    },
-  },
-  {
-    path: "/update/question",
-    name: "更新题目",
-    component: AddQuestionView,
-    meta: {
-      access: ACCESS_ENUM.USER,
-      hideInMenu: true,
-    },
-  },
-  {
-    path: "/manage/question/",
-    name: "管理题目",
-    component: ManageQuestionView,
-    meta: {
-      access: ACCESS_ENUM.ADMIN,
-    },
-  },
-  // {
-  //   path: "/hide",
-  //   name: "隐藏页面",
-  //   component: HomeView,
-  //   meta: {
-  //     hideInMenu: true,
-  //   },
-  // },
   {
     path: "/noAuth",
     name: "无权限",
@@ -132,21 +63,90 @@ export const routes: Array<RouteRecordRaw> = [
       hideInMenu: true,
     },
   },
-  // {
-  //   path: "/admin",
-  //   name: "管理员可见",
-  //   component: AdminView,
-  //   meta: {
-  //     access: ACCESS_ENUM.ADMIN,
-  //   },
-  // },
+
   {
-    path: "/about",
-    name: "关于我的",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/course/preview",
+    name: "课程预览详情",
+    component: CoursePreviewView,
+    meta: {
+      hideInMenu: true,
+      access: ACCESS_ENUM.INSTRUCTOR,
+    },
+  },
+  {
+    path: "/course/detail",
+    name: "课程详情",
+    component: CourseDetailView,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/preview/learning",
+    name: "课程预览学习",
+    component: LearningPreviewView,
+    meta: {
+      hideInMenu: true,
+      access: ACCESS_ENUM.INSTRUCTOR,
+    },
+  },
+  {
+    path: "/learning",
+    name: "课程学习",
+    component: LearningView,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+
+  {
+    path: "/myCourse",
+    name: "我的课程表",
+    component: MyCourseView,
+    meta: {
+      access: ACCESS_ENUM.STUDENT,
+    },
+  },
+  {
+    path: "/company/course",
+    name: "课程管理",
+    component: CourseManageView,
+    meta: {
+      access: ACCESS_ENUM.INSTRUCTOR,
+    },
+  },
+
+  {
+    path: "/company/media",
+    name: "媒体管理",
+    component: MediaManageView,
+    meta: {
+      access: ACCESS_ENUM.INSTRUCTOR,
+    },
+  },
+
+  {
+    path: "/add/course",
+    name: "添加课程",
+    component: CourseUpdateView,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/update/course",
+    name: "更新课程",
+    component: CourseUpdateView,
+    meta: {
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/course/audit",
+    name: "课程审核",
+    component: CourseAuditView,
+    meta: {
+      access: ACCESS_ENUM.ADMIN,
+    },
   },
 ];

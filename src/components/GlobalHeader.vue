@@ -29,9 +29,17 @@
         </div>
         <!-- 如果已登录，显示用户名 -->
         <div v-else class="user-profile">
-          <a-avatar class="user-avatar">
-            <img alt="avatar" :src="userAvatarUrl" />
-          </a-avatar>
+          <a-dropdown>
+            <a-avatar class="user-avatar">
+              <img alt="avatar" :src="userAvatarUrl" />
+            </a-avatar>
+            <template #content>
+              <a-doption @click="goToAbout">关于我的</a-doption>
+              <a-doption @click="goToLogout">退出登录</a-doption>
+              <a-doption @click="toggleTheme">切换主题</a-doption>
+              <!-- 添加切换主题按钮 -->
+            </template>
+          </a-dropdown>
           <div class="user-name">{{ userName }}</div>
         </div>
       </div>
@@ -46,6 +54,8 @@ import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
+import { UserControllerService } from "../../generated";
+import message from "@arco-design/web-vue/es/message";
 
 const router = useRouter();
 const store = useStore();
@@ -76,12 +86,12 @@ router.afterEach((to, from, failure) => {
 
 console.log();
 
-setTimeout(() => {
-  store.dispatch("user/getLoginUser", {
-    userName: "管理员",
-    userRole: ACCESS_ENUM.ADMIN,
-  });
-}, 3000);
+// setTimeout(() => {
+//   store.dispatch("user/getLoginUser", {
+//     userName: "管理员",
+//     userRole: ACCESS_ENUM.ADMIN,
+//   });
+// }, 3000);
 
 const doMenuClick = (key: string) => {
   router.push({
@@ -89,16 +99,23 @@ const doMenuClick = (key: string) => {
   });
 };
 // 假设你的store中有用户信息，包括头像URL
-const userAvatarUrl = computed(
-  () => store.state.user?.loginUser?.userAvatar ?? ""
-);
+const userAvatarUrl = computed(() => store.state.user?.loginUser?.avatar ?? "");
 
 // 使用计算属性来安全地访问用户名
 const userName = computed(() => {
-  return store.state.user?.loginUser?.userName ?? "未登录";
+  return store.state.user?.loginUser?.name ?? "未登录";
 });
 // 添加跳转到登录页面的方法
 const goToLogin = () => {
+  router.push("/user/login");
+};
+const goToAbout = () => {
+  router.push("/about");
+};
+const goToLogout = async () => {
+  await store.dispatch("user/logout");
+  // 清理用户信息后跳转到登录页
+  message.success("退出成功，下次再见！");
   router.push("/user/login");
 };
 </script>

@@ -253,7 +253,7 @@ export const catchErrorCodes = (options: ApiRequestOptions, result: ApiResult): 
         404: 'Not Found',
         500: 'Internal Server Error',
         502: 'Bad Gateway',
-        503: 'Service Unavailable',
+        503: 'MediaService Unavailable',
         ...options.errors,
     }
 
