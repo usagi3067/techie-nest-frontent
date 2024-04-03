@@ -3,10 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Page_PostVO_ } from './Page_PostVO_';
+import type { ChooseCourseDto } from '../../newgenerated/models/ChooseCourseDto';
 
-export type BaseResponse_Page_PostVO_ = {
+export type BaseResponse_ChooseCourseDto_ = {
     code?: number;
-    data?: Page_PostVO_;
+    data?: ChooseCourseDto;
     message?: string;
 };
+

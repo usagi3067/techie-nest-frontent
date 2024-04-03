@@ -3,10 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Page_UserVO_ } from './Page_UserVO_';
+import type { CourseTablesDto } from './CourseTablesDto';
 
-export type BaseResponse_Page_UserVO_ = {
+export type BaseResponse_CourseTablesDto_ = {
     code?: number;
-    data?: Page_UserVO_;
+    data?: CourseTablesDto;
     message?: string;
 };
+

@@ -3,10 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Page_User_ } from './Page_User_';
+import type { CoursePublish } from './CoursePublish';
 
-export type BaseResponse_Page_User_ = {
+export type BaseResponse_CoursePublish_ = {
     code?: number;
-    data?: Page_User_;
+    data?: CoursePublish;
     message?: string;
 };
+

@@ -3,10 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Page_Question_ } from './Page_Question_';
+import type { TeachPlanDto } from './TeachPlanDto';
 
-export type BaseResponse_Page_Question_ = {
+export type BaseResponse_List_TeachPlanDto_ = {
     code?: number;
-    data?: Page_Question_;
+    data?: Array<TeachPlanDto>;
     message?: string;
 };
+
