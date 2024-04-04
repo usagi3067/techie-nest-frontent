@@ -65,10 +65,15 @@ onMounted(() => {
       }
       courseBase.value = res?.data?.courseBase;
       teacherPlans.value = res?.data?.teachPlans || [];
+      const info = firstVideoInfo.value;
+      if (info === undefined) {
+        message.info("该课程没有相关视频， 待后续作者发布");
+        return;
+      }
       LearningService.getvideoUsingGet(
         Number(id.value),
-        firstVideoInfo.value?.mediaId as string,
-        firstVideoInfo.value?.id as number
+        info?.mediaId as string,
+        info?.id as number
       ).then((res: BaseResponse_string_) => {
         if (res.code !== 0) {
           message.error(res.message as string);

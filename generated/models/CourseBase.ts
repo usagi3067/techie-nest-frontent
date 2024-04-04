@@ -5,23 +5,18 @@
 
 export type CourseBase = {
     auditStatus?: string;
-    companyId?: number;
-    companyName?: string;
-    createdBy?: string;
     dateCreated?: string;
     dateUpdated?: string;
     description?: string;
-    grade?: string;
     id?: number;
-    isDelete?: number;
-    mt?: string;
+    lecturerId?: number;
+    lecturerName?: string;
+    mainCategory?: string;
     name?: string;
     pic?: string;
-    st?: string;
-    status?: string;
+    preKnowledge?: string;
+    publishStatus?: string;
+    subCategory?: string;
     tags?: string;
-    teachMode?: string;
-    updatedBy?: string;
-    users?: string;
 };
 

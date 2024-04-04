@@ -65,18 +65,24 @@ onMounted(() => {
       }
       courseBase.value = res?.data?.courseBase;
       teacherPlans.value = res?.data?.teachPlans || [];
-      MediaService.getPlayUrlByMediaIdUsingGet(
-        firstVideoInfo.value?.mediaId as string
-      ).then((res: BaseResponse_string_) => {
-        if (res.code !== 0) {
-          message.error(res.message as string);
-          return;
+
+      const info = firstVideoInfo.value;
+      if (info === undefined) {
+        message.info("你未绑定任何视频， 请绑定相关视频");
+        return;
+      }
+      MediaService.getPlayUrlByMediaIdUsingGet(info?.mediaId as string).then(
+        (res: BaseResponse_string_) => {
+          if (res.code !== 0) {
+            message.error(res.message as string);
+            return;
+          }
+          url.value = "http://127.0.0.1:9000" + res?.data ?? "";
+          imgUrl.value = "http://127.0.0.1:9000" + courseBase.value?.pic ?? "";
+          console.log("url", url.value);
+          console.log("imgUrl", imgUrl.value);
         }
-        url.value = "http://127.0.0.1:9000" + res?.data ?? "";
-        imgUrl.value = "http://127.0.0.1:9000" + courseBase.value?.pic ?? "";
-        console.log("url", url.value);
-        console.log("imgUrl", imgUrl.value);
-      });
+      );
     }
   );
 });

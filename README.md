@@ -3,7 +3,7 @@
 ## 根据后台生成代码
 
 ```shell
-openapi --input http://localhost:5432/api/learning/v2/api-docs --output ./newgenerated --client axios
+openapi --input http://localhost:2345/api/content/v2/api-docs --output ./newgenerated --client axios
 ```
 
 

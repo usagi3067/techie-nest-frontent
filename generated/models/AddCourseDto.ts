@@ -8,21 +8,17 @@
  */
 export type AddCourseDto = {
     /**
-     * 收费规则, 对应数据字典
-     */
-    charge: string;
-    /**
      * 课程介绍
      */
     description?: string;
     /**
-     * 课程等级
+     * 是否收费
      */
-    grade: string;
+    isFree: number;
     /**
      * 课程大分类
      */
-    mt: string;
+    mainCategory: string;
     /**
      * 课程名称
      */
@@ -40,6 +36,10 @@ export type AddCourseDto = {
      */
     pic: string;
     /**
+     * 预备知识
+     */
+    preKnowledge?: string;
+    /**
      * 课程价格
      */
     price: number;
@@ -50,19 +50,11 @@ export type AddCourseDto = {
     /**
      * 课程小分类
      */
-    st: string;
+    subCategory: string;
     /**
      * 课程标签
      */
-    tags?: string;
-    /**
-     * 教学模式（普通、 录播、 直播等）
-     */
-    teachMode: string;
-    /**
-     * 适用人群
-     */
-    users: string;
+    tags?: Array<string>;
     /**
      * 有效期
      */

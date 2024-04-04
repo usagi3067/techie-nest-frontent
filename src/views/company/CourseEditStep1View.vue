@@ -5,31 +5,19 @@
         <a-form-item field="name" label="课程标题">
           <a-input v-model="form.name" placeholder="请输入课程名称" />
         </a-form-item>
-        <a-form-item field="tags" label="课程标签">
-          <a-input v-model="form.tags" placeholder="请输入课程标签" />
-        </a-form-item>
-        <!--        <a-form-item field="tags" label="标签">-->
-        <!--          <a-input-tag-->
-        <!--            allowClear-->
-        <!--            v-model="form.tags"-->
-        <!--            placeholder="请选择标签并敲击回车键"-->
-        <!--          />-->
+        <!--        <a-form-item field="tags" label="课程标签">-->
+        <!--          <a-input v-model="form.tags" placeholder="请输入课程标签" />-->
         <!--        </a-form-item>-->
-        <a-form-item field="grade" label="课程等级">
-          <a-select
-            :style="{ width: '320px' }"
-            v-model="form.grade"
-            placeholder="Please select ..."
-            allow-clear
-          >
-            <a-option>初级</a-option>
-            <a-option>中级</a-option>
-            <a-option>高级</a-option>
-          </a-select>
+        <a-form-item field="tags" label="标签">
+          <a-input-tag
+            allowClear
+            v-model="form.tags"
+            placeholder="请选择标签并敲击回车键"
+          />
         </a-form-item>
         <a-form-item field="selectedPath" label="课程分类">
           <a-cascader
-            v-model="form.selectedPath"
+            v-model="selectedPath"
             :path-mode="true"
             :options="options"
             expand-trigger="hover"
@@ -44,20 +32,20 @@
         </a-form-item>
         <a-form-item field="description" label="课程简介">
           <a-textarea
-            placeholder="请输入课程简介， 不超过 500字"
+            placeholder="请输入课程简介， 不超过 5000字"
             :max-length="{ length: 5000, errorOnly: true }"
             allow-clear
             show-word-limit
             v-model="form.description"
           />
         </a-form-item>
-        <a-form-item field="users" label="适合人员">
+        <a-form-item field="description" label="预备知识">
           <a-textarea
-            placeholder="请输入课程适用人员， 不超过 500字"
+            placeholder="请输入预备知识， 不超过 500字"
             :max-length="{ length: 500, errorOnly: true }"
             allow-clear
             show-word-limit
-            v-model="form.users"
+            v-model="form.description"
           />
         </a-form-item>
         <a-form-item field="pic" label="课程图片" :limit="1">
@@ -71,9 +59,9 @@
           />
         </a-form-item>
         <a-form-item field="charge" label="课程类型">
-          <a-radio-group v-model="form.charge">
-            <a-radio value="201000">免费</a-radio>
-            <a-radio value="201001">收费</a-radio>
+          <a-radio-group v-model="form.isFree">
+            <a-radio :value="1">免费</a-radio>
+            <a-radio :value="0">收费</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item field="price" label="现价">
@@ -129,6 +117,7 @@ const router = useRouter();
 
 let form = ref<CourseBaseInfoDto>({});
 const fileList = ref<FileItem[]>([]);
+const selectedPath = ref<string[]>([]);
 const route = useRoute();
 const updatePage = route.path.includes("update");
 
@@ -138,13 +127,13 @@ onMounted(() => {
 
 // 监听form中mt和st的变化，并更新selectedPath数组
 watch(
-  () => [form.value.mt, form.value.st],
+  () => [form.value.mainCategory, form.value.subCategory],
   (newValues) => {
     // 只有当mt和st都有值时，才更新selectedPath
     if (newValues[0] && newValues[1]) {
-      form.value.selectedPath = [newValues[0], newValues[1]];
+      selectedPath.value = [newValues[0], newValues[1]];
     }
-    console.log("当前选中的路径:", form.value.selectedPath);
+    console.log("当前选中的路径:", selectedPath.value);
   }
 );
 
@@ -219,8 +208,8 @@ defineExpose({
 const options = ref();
 
 const handleCascaderChange = (value: string[]) => {
-  form.value.mt = value[0];
-  form.value.st = value[1];
+  form.value.mainCategory = value[0];
+  form.value.subCategory = value[1];
   console.log("选择的分类", value);
 };
 const handleSuccess = (fileItem: FileItem) => {

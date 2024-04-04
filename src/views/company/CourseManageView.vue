@@ -8,8 +8,8 @@
       <template #auditStatus="{ record }">
         {{ transformCourseAuditStatus(record?.auditStatus) }}
       </template>
-      <template #status="{ record }">
-        {{ transformCoursePublishStatus(record?.status) }}
+      <template #publishStatus="{ record }">
+        {{ transformCoursePublishStatus(record?.publishStatus) }}
       </template>
       <template #action="{ record }">
         <a-button type="text" @click="doUpdate(record)">编辑</a-button>
@@ -19,7 +19,7 @@
           <a-button
             type="text"
             @click="doAudit(record)"
-            :disabled="record?.auditStatus == '202003'"
+            :disabled="record?.auditStatus == AUDIT_STATUS_ENUM.SUBMITTED"
             >提交审核
           </a-button>
         </a-popconfirm>
@@ -27,7 +27,8 @@
           <a-button
             type="text"
             :disabled="
-              record?.status == '203002' || record?.auditStatus != '202004'
+              record?.status == PUBLISH_STATUS_ENUM.PUBLISHED ||
+              record?.auditStatus != AUDIT_STATUS_ENUM.APPROVED
             "
             @click="duPublish(record)"
             >发布
@@ -48,6 +49,8 @@ import {
 } from "../../../generated";
 import { useRouter } from "vue-router";
 import message from "@arco-design/web-vue/es/message";
+import PUBLISH_STATUS_ENUM from "@/enum/publishStatusEnum";
+import AUDIT_STATUS_ENUM from "@/enum/AuditStatusEnum";
 
 const columns = [
   {
@@ -62,7 +65,7 @@ const columns = [
   },
   {
     title: "发布状态",
-    slotName: "status",
+    slotName: "publishStatus",
   },
   {
     title: "操作",
@@ -81,10 +84,10 @@ const addCourse = () => {
 // 方法转换课程审核状态码为文本描述
 const transformCourseAuditStatus = (statusCode: string) => {
   const courseAuditStatusMap = {
-    "202001": "审核未通过",
-    "202002": "未提交",
-    "202003": "已提交",
-    "202004": "审核通过",
+    "100001": "审核未通过",
+    "100002": "未提交",
+    "100003": "已提交",
+    "100004": "审核通过",
   } as any;
   return courseAuditStatusMap[statusCode] || "未知状态";
 };
@@ -98,22 +101,12 @@ const transformCourseChargeStatus = (statusCode: string) => {
   return courseChargeMap[statusCode] || "未知状态";
 };
 
-// 方法转换课程等级状态码为文本描述
-const transformCourseLevel = (statusCode: string) => {
-  const courseLevelMap = {
-    "204001": "初级",
-    "204002": "中级",
-    "204003": "高级",
-  } as any;
-  return courseLevelMap[statusCode] || "未知等级";
-};
-
 // 方法转换课程发布状态码为文本描述
 const transformCoursePublishStatus = (statusCode: string) => {
   const coursePublishStatusMap = {
-    "203001": "未发布",
-    "203002": "已发布",
-    "203003": "下线",
+    "200001": "未发布",
+    "200002": "已发布",
+    "200003": "下线",
   } as any;
   return coursePublishStatusMap[statusCode] || "未知状态";
 };

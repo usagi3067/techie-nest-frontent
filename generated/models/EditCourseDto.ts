@@ -5,25 +5,21 @@
 
 export type EditCourseDto = {
     /**
-     * 收费规则, 对应数据字典
-     */
-    charge: string;
-    /**
      * 课程介绍
      */
     description?: string;
-    /**
-     * 课程等级
-     */
-    grade: string;
     /**
      * 课程id
      */
     id: number;
     /**
+     * 是否收费
+     */
+    isFree: number;
+    /**
      * 课程大分类
      */
-    mt: string;
+    mainCategory: string;
     /**
      * 课程名称
      */
@@ -41,6 +37,10 @@ export type EditCourseDto = {
      */
     pic: string;
     /**
+     * 预备知识
+     */
+    preKnowledge?: string;
+    /**
      * 课程价格
      */
     price: number;
@@ -51,19 +51,11 @@ export type EditCourseDto = {
     /**
      * 课程小分类
      */
-    st: string;
+    subCategory: string;
     /**
      * 课程标签
      */
-    tags?: string;
-    /**
-     * 教学模式（普通、 录播、 直播等）
-     */
-    teachMode: string;
-    /**
-     * 适用人群
-     */
-    users: string;
+    tags?: Array<string>;
     /**
      * 有效期
      */
@@ -72,7 +64,5 @@ export type EditCourseDto = {
      * 微信
      */
     wechat?: string;
-
-    selectedPath?: string[];
 };
 
