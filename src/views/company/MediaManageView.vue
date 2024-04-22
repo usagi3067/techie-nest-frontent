@@ -192,6 +192,7 @@ const uploadByPieces = ({ file, pieceSize = 2, success, error }: any) => {
           fetchForm.append("file", chunk);
           fetchForm.append("fileMd5", fileMD5);
           fetchForm.append("chunk", String(num));
+          console.log("--------", fetchForm);
           await MediaService.uploadChunkUsingPost(fetchForm)
             .then(async (res) => {
               // 上传成功
@@ -207,7 +208,7 @@ const uploadByPieces = ({ file, pieceSize = 2, success, error }: any) => {
           success({ num, chunkCount, state: "uploading" });
           readChunkMD5(num + 1);
         } else {
-          message.error(res.message);
+          message.error(res.message + "123");
         }
       });
     } else {
@@ -215,11 +216,11 @@ const uploadByPieces = ({ file, pieceSize = 2, success, error }: any) => {
       // 提交合并
       MediaService.mergeChunksUsingPost(chunkCount, fileMD5, file?.name)
         .then((res) => {
-          if (res.data === 0) {
+          if (res.code === 0) {
             // 合并成功了
             success({ num, chunkCount, state: "success" });
           } else {
-            message.error(res.message);
+            message.error(res.message + "1234");
           }
         })
         .catch((err) => {
@@ -262,10 +263,10 @@ onMounted(() => {
 // 方法转换课程审核状态码为文本描述
 const transformCourseAuditStatus = (statusCode: string) => {
   const courseAuditStatusMap = {
-    "202001": "审核未通过",
-    "202002": "未提交",
-    "202003": "已提交",
-    "202004": "审核通过",
+    "100001": "审核未通过",
+    "100002": "未提交",
+    "100003": "已提交",
+    "100004": "审核通过",
   } as any;
   return courseAuditStatusMap[statusCode] || "未知状态";
 };

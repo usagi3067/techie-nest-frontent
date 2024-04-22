@@ -4,32 +4,30 @@
 /* eslint-disable */
 
 export type CoursePublish = {
-    charge?: string;
-    companyId?: number;
-    companyName?: string;
-    createDate?: string;
+    countBuy?: number;
+    countStudy?: number;
     description?: string;
-    grade?: string;
     id?: number;
+    isFree?: number;
+    lecturerId?: number;
+    lecturerInfo?: string;
+    lecturerName?: string;
+    mainCategory?: string;
+    mainCategoryName?: string;
     market?: string;
-    mt?: string;
-    mtName?: string;
     name?: string;
     offlineDate?: string;
-    onlineDate?: string;
     originalPrice?: number;
     pic?: string;
+    preKnowledge?: string;
     price?: number;
+    publishDate?: string;
     remark?: string;
-    st?: string;
-    stName?: string;
     status?: string;
+    subCategory?: string;
+    subCategoryName?: string;
     tags?: string;
-    teachMode?: string;
     teachPlan?: string;
-    teachers?: string;
-    username?: string;
-    users?: string;
     validDays?: number;
 };
 

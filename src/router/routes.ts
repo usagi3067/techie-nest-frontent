@@ -16,6 +16,7 @@ import MediaManageView from "@/views/company/MediaManageView.vue";
 import CoursePreviewView from "@/views/course/preview/CoursePreviewView.vue";
 import LearningPreviewView from "@/views/learn/preview/LearningPreviewView.vue";
 import CourseAuditView from "@/views/audit/CourseAuditView.vue";
+import TechieNestView from "@/views/course/TechieNestView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -45,11 +46,19 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    redirect: "/courseSearch", // 重定向 / 到 /questions
+    redirect: "/techie-nest", // 重定向 / 到 /questions
+  },
+  {
+    path: "/techie-nest",
+    name: "课程主页",
+    component: TechieNestView,
+    meta: {
+      access: ACCESS_ENUM.NOT_LOGIN,
+    },
   },
   {
     path: "/courseSearch",
-    name: "课程主页",
+    name: "课程搜索",
     component: CourseSearchView,
     meta: {
       access: ACCESS_ENUM.NOT_LOGIN,

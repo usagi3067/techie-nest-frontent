@@ -21,14 +21,6 @@ export type UploadFileResultDto = {
      */
     changeDate?: string;
     /**
-     * 机构ID
-     */
-    companyId?: number;
-    /**
-     * 机构名称
-     */
-    companyName?: string;
-    /**
      * 上传时间
      */
     createDate?: string;
@@ -56,6 +48,14 @@ export type UploadFileResultDto = {
      * 文件id,md5值
      */
     id?: string;
+    /**
+     * 讲师ID
+     */
+    lecturerId?: number;
+    /**
+     * 讲师名称
+     */
+    lecturerName?: string;
     /**
      * 备注
      */

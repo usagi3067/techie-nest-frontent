@@ -5,16 +5,14 @@
 
 export type CourseTables = {
     chooseCourseId?: number;
-    companyId?: number;
     courseId?: number;
     courseName?: string;
-    courseType?: string;
-    createDate?: string;
     id?: number;
+    isFree?: number;
+    lecturerId?: number;
     pic?: string;
     remarks?: string;
-    updateDate?: string;
-    userId?: string;
+    userId?: number;
     validTimeEnd?: string;
     validTimeStart?: string;
 };

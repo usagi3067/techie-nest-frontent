@@ -1,8 +1,13 @@
 // initial state
 // import { UserControllerService } from "../../generated";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { StoreOptions } from "vuex";
 import { useCookies } from "vue3-cookies";
+
+interface CustomJwtPayload extends JwtPayload {
+  user_name?: string;
+  authorities?: string[];
+}
 
 const { cookies } = useCookies();
 export default {
@@ -17,7 +22,7 @@ export default {
   }),
   actions: {
     async getLoginUser({ commit, state }, payload) {
-      const jwtPayload = jwtDecode(payload);
+      const jwtPayload: CustomJwtPayload = jwtDecode(payload);
       console.log("获取的登录用户信息", jwtPayload);
       let user_info = {} as any;
       if (jwtPayload.user_name != null) {

@@ -7,6 +7,7 @@ export type AddOrderDto = {
     orderDescrip?: string;
     orderDetail?: string;
     orderName?: string;
+    orderCourseId?: number;
     orderType?: string;
     outBusinessId?: string;
     totalPrice?: number;

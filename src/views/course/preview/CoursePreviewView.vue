@@ -2,8 +2,10 @@
   <div id="CoursePreviewView">
     <a-space class="breadcrumb" direction="vertical" fill>
       <a-breadcrumb :style="{ fontSize: `22px` }">
-        <a-breadcrumb-item>{{ courseBase?.mtName }}</a-breadcrumb-item>
-        <a-breadcrumb-item>{{ courseBase?.stName }}</a-breadcrumb-item>
+        <a-breadcrumb-item
+          >{{ courseBase?.mainCategoryName }}
+        </a-breadcrumb-item>
+        <a-breadcrumb-item>{{ courseBase?.subCategoryName }}</a-breadcrumb-item>
       </a-breadcrumb>
       <div
         :style="{
@@ -31,12 +33,10 @@
               <p>{{ courseBase?.name }}</p>
             </div>
             <div>
-              <span v-if="courseBase?.charge === '201000'" style="color: green">
+              <span v-if="courseBase?.isFree === 1" style="color: green">
                 免费</span
               >
-              <span
-                v-else-if="courseBase?.charge === '201001'"
-                style="color: orange"
+              <span v-else-if="courseBase?.isFree === 0" style="color: orange"
                 >收费</span
               >
               <div>
@@ -89,6 +89,7 @@ import { useRoute } from "vue-router";
 import {
   AddOrderDto,
   BaseResponse_CourseBaseInfoDto_,
+  BaseResponse_CoursePublish_,
   BaseResponse_List_TeachPlanDto_,
   BaseResponse_PayRecordDto_,
   ChooseCourseDto,
@@ -105,6 +106,7 @@ const id = computed(() => route.query.id);
 import { useRouter } from "vue-router";
 import store from "@/store";
 import message from "@arco-design/web-vue/es/message";
+import CourseStatusEnum from "@/enum/CourseStatusEnum";
 
 const router = useRouter();
 
@@ -156,19 +158,17 @@ const handleCancel = () => {
   visible.value = false;
 };
 
-const loginUser = computed(() => store.state.user?.loginUser ?? {});
-
 const pay = () => {
   LearningService.addChooseCourseUsingPost(courseBase.value?.id as any).then(
     (res) => {
       if (res.code === 0) {
         console.log("支付二维码： ", res.data);
-        if (res?.data.learnStatus === "702001") {
+        if (res?.data?.learnStatus === CourseStatusEnum.SUCCESS) {
           // 正常
           // 开始学习
           console.log("开始学习");
           router.push({ path: "/learning", query: { id: id.value } });
-        } else if (res?.data.learnStatus === "702002") {
+        } else if (res?.data?.learnStatus === CourseStatusEnum.NEED_PAY) {
           // 需要购买课程
           var good = {
             goodsId: res?.data.courseId,
@@ -229,12 +229,12 @@ const addCourseTable = () => {
     (res) => {
       console.log("加入课程结果： ", res);
       console.log(res.learnStatus);
-      if (res?.learnStatus === "702001") {
+      if (res?.data?.learnStatus === CourseStatusEnum.SUCCESS) {
         // 正常
         // 开始学习
         console.log("开始学习");
         router.push({ path: "/learning", query: { id: id.value } });
-      } else if (res?.learnStatus === "702002") {
+      } else if (res?.data?.learnStatus === CourseStatusEnum.NEED_PAY) {
         // 需要购买课程
         console.log("需要购买课程");
       } else {
@@ -244,21 +244,26 @@ const addCourseTable = () => {
     }
   );
 };
+const loadData = async () => {
+  {
+    console.log("课程详情： ", id);
+    Service.getCourseBaseByIdUsingGet(id.value as any).then(
+      (res: BaseResponse_CourseBaseInfoDto_) => {
+        if (res.code === 0) {
+          courseBase.value = res.data;
+        } else message.error(res.message as string);
+      }
+    );
+    Service.getTreeNodesUsingGet(id.value as any).then(
+      (res: BaseResponse_List_TeachPlanDto_) => {
+        if (res.code === 0) teachPlan.value = res.data!;
+        else message.error(res.message as string);
+      }
+    );
+  }
+};
 onMounted(() => {
-  console.log("课程详情： ", id);
-  Service.getCourseBaseByIdUsingGet(id.value as any).then(
-    (res: BaseResponse_CourseBaseInfoDto_) => {
-      if (res.code === 0) {
-        courseBase.value = res.data;
-      } else message.error(res.message as string);
-    }
-  );
-  Service.getTreeNodesUsingGet(id.value as any).then(
-    (res: BaseResponse_List_TeachPlanDto_) => {
-      if (res.code === 0) teachPlan.value = res.data!;
-      else message.error(res.message as string);
-    }
-  );
+  loadData();
 });
 </script>
 

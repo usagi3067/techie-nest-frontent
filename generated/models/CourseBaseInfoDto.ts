@@ -35,7 +35,7 @@ export type CourseBaseInfoDto = {
     /**
      * 大分类名称
      */
-    mtName?: string;
+    mainCategoryName?: string;
     /**
      * 课程名称
      */
@@ -69,13 +69,13 @@ export type CourseBaseInfoDto = {
      */
     qq?: string;
     /**
-     * 小分类名称
-     */
-    stName?: string;
-    /**
      * 次分类
      */
     subCategory?: string;
+    /**
+     * 小分类名称
+     */
+    subCategoryName?: string;
     /**
      * 课程标签
      */

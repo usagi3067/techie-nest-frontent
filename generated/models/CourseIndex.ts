@@ -4,26 +4,23 @@
 /* eslint-disable */
 
 export type CourseIndex = {
-    charge?: string;
-    companyId?: number;
-    companyName?: string;
     createDate?: string;
     description?: string;
-    grade?: string;
     id?: number;
-    mt?: string;
-    mtName?: string;
+    isFree?: number;
+    lecturerId?: number;
+    lecturerName?: string;
+    mainCategory?: string;
+    mainCategoryName?: string;
     name?: string;
     originalPrice?: number;
     pic?: string;
     price?: number;
     remark?: string;
-    st?: string;
-    stName?: string;
     status?: string;
+    subCategory?: string;
+    subCategoryName?: string;
     tags?: string;
-    teachMode?: string;
-    users?: string;
     validDays?: number;
 };
 

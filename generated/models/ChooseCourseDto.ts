@@ -4,18 +4,19 @@
 /* eslint-disable */
 
 export type ChooseCourseDto = {
-    companyId?: number;
     courseId?: number;
     courseName?: string;
     coursePrice?: number;
-    createDate?: string;
+    dateCreated?: string;
+    dateUpdated?: string;
     id?: number;
+    isFree?: number;
     learnStatus?: string;
-    orderType?: string;
+    lecturerId?: number;
     pic?: string;
     remarks?: string;
     status?: string;
-    userId?: string;
+    userId?: number;
     validDays?: number;
     validTimeEnd?: string;
     validTimeStart?: string;

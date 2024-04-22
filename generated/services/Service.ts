@@ -2,24 +2,25 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AddCourseDto } from '../models/AddCourseDto';
-import type { BaseResponse_boolean_ } from '../models/BaseResponse_boolean_';
-import type { BaseResponse_CourseBaseInfoDto_ } from '../models/BaseResponse_CourseBaseInfoDto_';
-import type { BaseResponse_CoursePreviewDto_ } from '../models/BaseResponse_CoursePreviewDto_';
-import type { BaseResponse_CoursePublish_ } from '../models/BaseResponse_CoursePublish_';
-import type { BaseResponse_List_CourseCategoryMenuDto_ } from '../models/BaseResponse_List_CourseCategoryMenuDto_';
-import type { BaseResponse_List_CourseCategoryTreeDto_ } from '../models/BaseResponse_List_CourseCategoryTreeDto_';
-import type { BaseResponse_List_CourseTeacher_ } from '../models/BaseResponse_List_CourseTeacher_';
-import type { BaseResponse_List_TeachPlanDto_ } from '../models/BaseResponse_List_TeachPlanDto_';
-import type { BaseResponse_PageResult_CourseBase_ } from '../models/BaseResponse_PageResult_CourseBase_';
-import type { BindTeachPlanMediaDto } from '../models/BindTeachPlanMediaDto';
-import type { EditCourseDto } from '../models/EditCourseDto';
-import type { QueryCoursePageDto } from '../models/QueryCoursePageDto';
-import type { SaveTeachPlanDto } from '../models/SaveTeachPlanDto';
+import type { AddCourseDto } from "../models/AddCourseDto";
+import type { BaseResponse_boolean_ } from "../models/BaseResponse_boolean_";
+import type { BaseResponse_CourseBaseInfoDto_ } from "../models/BaseResponse_CourseBaseInfoDto_";
+import type { BaseResponse_CoursePreviewDto_ } from "../models/BaseResponse_CoursePreviewDto_";
+import type { BaseResponse_CoursePublish_ } from "../models/BaseResponse_CoursePublish_";
+import type { BaseResponse_List_CourseCategoryMenuDto_ } from "../models/BaseResponse_List_CourseCategoryMenuDto_";
+import type { BaseResponse_List_CourseCategoryTreeDto_ } from "../models/BaseResponse_List_CourseCategoryTreeDto_";
+import type { BaseResponse_List_CourseTeacher_ } from "../models/BaseResponse_List_CourseTeacher_";
+import type { BaseResponse_List_TeachPlanDto_ } from "../models/BaseResponse_List_TeachPlanDto_";
+import type { BaseResponse_PageResult_CourseBase_ } from "../models/BaseResponse_PageResult_CourseBase_";
+import type { BindTeachPlanMediaDto } from "../models/BindTeachPlanMediaDto";
+import type { EditCourseDto } from "../models/EditCourseDto";
+import type { QueryCoursePageDto } from "../models/QueryCoursePageDto";
+import type { SaveTeachPlanDto } from "../models/SaveTeachPlanDto";
 
-import type { CancelablePromise } from '../core/CancelablePromise';
-import { OpenAPI } from '../core/OpenAPI';
-import { request as __request } from '../core/request';
+import type { CancelablePromise } from "../core/CancelablePromise";
+import { OpenAPI } from "../core/OpenAPI";
+import { request as __request } from "../core/request";
+import { BaseResponse_HomePageDisplayDto_ } from "../models/BaseResponse_HomePageDisplayDto_";
 
 export class Service {
   /**
@@ -380,7 +381,7 @@ export class Service {
    */
   public static retrieveCoursePreviewInfoUsingGet(
     courseId: number
-  ): CancelablePromise<{ BaseResponse_CoursePreviewDto_}> {
+  ): CancelablePromise<BaseResponse_CoursePreviewDto_> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/content/open/course/whole/{courseId}",
@@ -529,6 +530,59 @@ export class Service {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
+      },
+    });
+  }
+
+  /**
+   * 课程查询接口
+   * @param pageNo 当前页号
+   * @param pageSize 页面大小
+   * @param req req
+   * @param sortField 排序字段
+   * @param sortOrder 排序顺序 (默认升序)
+   * @returns BaseResponse_PageResult_CourseBase_ OK
+   * @returns any Created
+   * @throws ApiError
+   */
+  public static listByAdminUsingPost(
+    pageNo?: number,
+    pageSize?: number,
+    req?: QueryCoursePageDto,
+    sortField?: string,
+    sortOrder?: string
+  ): CancelablePromise<BaseResponse_PageResult_CourseBase_ | any> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/content/admin/course/list",
+      query: {
+        pageNo: pageNo,
+        pageSize: pageSize,
+        sortField: sortField,
+        sortOrder: sortOrder,
+      },
+      body: req,
+      errors: {
+        401: `Unauthorized`,
+        403: `Forbidden`,
+        404: `Not Found`,
+      },
+    });
+  }
+
+  /**
+   * 查询主页展示数据
+   * @returns BaseResponse_HomePageDisplayDto_ OK
+   * @throws ApiError
+   */
+  public static displayUsingGet(): CancelablePromise<BaseResponse_HomePageDisplayDto_> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/content/course/index",
+      errors: {
+        401: `Unauthorized`,
+        403: `Forbidden`,
+        404: `Not Found`,
       },
     });
   }

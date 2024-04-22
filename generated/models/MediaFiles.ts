@@ -7,20 +7,17 @@ export type MediaFiles = {
     auditMind?: string;
     auditStatus?: string;
     bucket?: string;
-    changeDate?: string;
-    companyId?: number;
-    companyName?: string;
-    createDate?: string;
+    dateCreated?: string;
+    dateUpdated?: string;
     fileId?: string;
     filePath?: string;
     fileSize?: number;
     fileType?: string;
     filename?: string;
     id?: string;
+    lecturerId?: number;
+    lecturerName?: string;
     remark?: string;
-    status?: string;
-    tags?: string;
     url?: string;
-    username?: string;
 };
 
